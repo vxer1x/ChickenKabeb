@@ -94,11 +94,7 @@ void update_level(Level *l, Player*player,Cam*cam, float dt)
         }else
         {
             l->guns[i]->base->direction = 0.0f;
-        }
-        
-        
-
-        
+        }      
         
     }
 

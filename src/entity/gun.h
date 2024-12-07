@@ -13,11 +13,16 @@ typedef struct Gun
 
     int num_bullets;
     float fire_time;
+    float fire_rate;
+    int bullet_speed;
     Entity*bullets[30];
+
     int texture_id;
     int istaken;
+    float tflip;
 } Gun;
 
 Gun* create_gun(int x,int y,int type);
 void update_gun(Gun*gun, float dt);
 void draw_gun(Gun*gun, PreTextures*tex);
+void shoot_gun(Gun*gun);

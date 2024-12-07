@@ -134,10 +134,5 @@ void draw_player(Player *player, PreTextures*tex)
     }
     
     
-    
-
-    
-    
-    
 }
 
