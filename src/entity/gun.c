@@ -15,6 +15,7 @@ Gun *create_gun(int x, int y, int type)
 
     e->fire_time = 0;
     e->num_bullets = 30;
+    e->istaken = 0;
     if (type == 10)
     {
         e->texture_id = type;
@@ -28,7 +29,7 @@ Gun *create_gun(int x, int y, int type)
 
 void update_gun(Gun *gun, float dt)
 {
-    if (gun->base->velocity.y <= gun->base->gravity)
+    if (gun->base->velocity.y <= gun->base->gravity && gun->istaken == 0)
     {
         gun->base->velocity.y += 500*dt;
     }
@@ -36,5 +37,20 @@ void update_gun(Gun *gun, float dt)
 
 void draw_gun(Gun *gun, PreTextures *tex)
 {
-    DrawTexture(tex->shotgun, gun->base->pos.x, gun->base->pos.y, WHITE);
-}
+    float flip = 1.0f;
+    if (gun->base->direction <= 90 && gun->base->direction >= -90)
+    {
+        flip = 1.0f;
+    }else
+    {
+        flip = -1.0f;
+    }
+    
+    
+    Rectangle sourceRec = { 0.0f, 0.0f, (float)tex->shotgun.width, (float)tex->shotgun.height*flip };
+    Vector2 origin = { tex->shotgun.width / 2.0f, tex->shotgun.height / 2.0f };  // Rotate around the center of the gun
+
+    // Use DrawTexturePro to draw the gun rotated towards the mouse
+    DrawTexturePro(tex->shotgun, sourceRec, (Rectangle){ gun->base->pos.x, gun->base->pos.y, tex->shotgun.width, tex->shotgun.height },
+        origin, gun->base->direction, WHITE);
+    }

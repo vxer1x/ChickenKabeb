@@ -4,6 +4,8 @@
 
 #include "../gfx/texture.h"
 #include "../util/sfx.h"
+#include "../entity/entity.h"
+#include "../entity/gun.h"
 
 typedef struct Player
 {
@@ -21,6 +23,9 @@ typedef struct Player
 
     int anime_clip;
     float anime_time;
+
+    Gun*gun_in_hand;
+    int is_gun_in_hand;
 
 } Player;
 

@@ -12,3 +12,4 @@ void update_aabb(Level*l, Player*player, float dt);
 
 void update_aabb_ent(Level*l, Entity*player, float dt);
 int is_colliding_ent(Entity* a, Tile* b);
+int is_colliding_ent_player(Entity* a, Player* b);

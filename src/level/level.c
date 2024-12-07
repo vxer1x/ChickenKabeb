@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <raylib.h>
-
+#include <math.h>
 
 
 
@@ -64,8 +64,43 @@ void update_level(Level *l, Player*player,Cam*cam, float dt)
     {
         update_gun(l->guns[i], dt);
         update_aabb_ent(l, l->guns[i]->base,dt);
+
+        if (is_colliding_ent_player(l->guns[i]->base, player))
+        {
+            if (l->guns[i]->istaken == 0 && player->is_gun_in_hand == 0)
+            {
+                if (IsKeyPressed(KEY_E))
+                {
+                    player->gun_in_hand = l->guns[i];
+                    player->is_gun_in_hand = 1;
+                    l->guns[i]->istaken = 1;
+                }
+            }
+        }
+
+        if (l->guns[i]->istaken == 1)
+        {
+            Vector2 worldMousePos = GetScreenToWorld2D(GetMousePosition(), cam->cam);
+            Vector2 direction = (Vector2){ worldMousePos.x - l->guns[i]->base->pos.x, worldMousePos.y - l->guns[i]->base->pos.y };
+            l->guns[i]->base->direction = atan2(direction.y, direction.x)* (180.0f / PI);
+
+            if (IsKeyPressed(KEY_Q))
+            {
+                player->gun_in_hand = NULL;
+                player->is_gun_in_hand = 0;
+                l->guns[i]->istaken = 0;
+            }
+            
+        }else
+        {
+            l->guns[i]->base->direction = 0.0f;
+        }
+        
+        
+
+        
+        
     }
-    
 
 }
 

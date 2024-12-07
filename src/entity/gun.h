@@ -15,6 +15,7 @@ typedef struct Gun
     float fire_time;
     Entity*bullets[30];
     int texture_id;
+    int istaken;
 } Gun;
 
 Gun* create_gun(int x,int y,int type);

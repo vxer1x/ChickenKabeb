@@ -29,6 +29,9 @@ Player* init_player(int x, int y)
     p->anime_time = 0;
     p->dir = 1;
 
+    p->gun_in_hand = 0;
+    p->is_gun_in_hand = 0;
+
     return p;
 }
 
@@ -86,7 +89,12 @@ void update_player(Player *player,SFX* sfx,  float dt)
     }
     
     
-
+    if (player->is_gun_in_hand == 1)
+    {
+        player->gun_in_hand->base->pos.x = player->pos.x+16;
+        player->gun_in_hand->base->pos.y = player->pos.y+25;
+    }
+    
 
 }
 
