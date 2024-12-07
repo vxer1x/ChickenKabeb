@@ -17,6 +17,7 @@ PreTextures *load_textures()
     t->chicken_3f = LoadTexture("res/textures/chicken_3f.png");
     t->bg = LoadTexture("res/textures/purple.png");
     t->shotgun = LoadTexture("res/textures/shotgun.png");  // tid 10
+    t->uzi = LoadTexture("res/textures/uzi.png");  // tid 11
 
     return t;
 }
@@ -34,4 +35,5 @@ void unload_textures(PreTextures *t)
     UnloadTexture(t->purple_block);
     UnloadTexture(t->bg);
     UnloadTexture(t->shotgun);
+    UnloadTexture(t->uzi);
 }

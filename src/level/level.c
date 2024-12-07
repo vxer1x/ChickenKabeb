@@ -47,7 +47,7 @@ Level *load_level()
     Level *l = (Level *)malloc(sizeof(Level));
 
     l->guns[0] = create_gun(150,-200, 10);
-    l->guns[1] = create_gun(250,-200, 10);
+    l->guns[1] = create_gun(250,-200, 11);
 
     l->num_tiles = 50;
     load_tile(l);

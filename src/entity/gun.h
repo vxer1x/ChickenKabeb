@@ -12,6 +12,9 @@ typedef struct Gun
     Entity*base;
 
     int num_bullets;
+    int max_bullets;
+    float reload_time;   
+    float reload_timer;   
     float fire_time;
     float fire_rate;
     int bullet_speed;
