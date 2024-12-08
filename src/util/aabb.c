@@ -2,6 +2,7 @@
 
 #include <raylib.h>
 #include <stdio.h>
+#include <math.h>
 
 #include "../entity/tile.h"
 #include "../level/level.h"
@@ -27,6 +28,17 @@ int is_colliding(Player *a, Tile *b) {
 
 
 void update_aabb(Level *l, Player *player, float dt) {
+    player->onground = 0;
+    float magnitude = sqrtf(player->velocity.x * player->velocity.x + player->velocity.y * player->velocity.y);
+
+    // Check for terminal velocity
+    if (magnitude > player->terminal_vel) {
+        // Scale velocity to terminal velocity
+        player->velocity.x = (player->velocity.x / magnitude) * player->terminal_vel;
+        player->velocity.y = (player->velocity.y / magnitude) * player->terminal_vel;
+    }
+
+
     // Resolve X-axis first
     player->pos.x += (player->velocity.x * dt);
     for (int i = 0; i < l->num_tiles; i++) {

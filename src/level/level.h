@@ -14,10 +14,11 @@ typedef struct Level
     int num_tiles;
     Tile* tiles[50];
     Gun*guns[2];
+    Player*player;
 }Level;
 
 void load_tile(Level*l);
 
 Level* load_level();
-void update_level(Level* l,Player* player, Cam*cam, float dt);
+void update_level(Level* l, Cam*cam, float dt);
 void draw_level(Level* l, PreTextures*tex);

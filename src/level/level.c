@@ -50,29 +50,27 @@ Level *load_level()
     l->guns[1] = create_gun(250,-200, 11);
 
     l->num_tiles = 50;
+    l->player = init_player(200,-200);
     load_tile(l);
 
     return l;
 }
 
-void update_level(Level *l, Player*player,Cam*cam, float dt)
+void update_level(Level *l,Cam*cam, float dt)
 {
-
-    update_aabb(l,player,dt);
 
     for (int i = 0; i < 2; i++)
     {
-        update_gun(l->guns[i], dt);
         update_aabb_ent(l, l->guns[i]->base,dt);
 
-        if (is_colliding_ent_player(l->guns[i]->base, player))
+        if (is_colliding_ent_player(l->guns[i]->base, l->player))
         {
-            if (l->guns[i]->istaken == 0 && player->is_gun_in_hand == 0)
+            if (l->guns[i]->istaken == 0 && l->player->is_gun_in_hand == 0)
             {
                 if (IsKeyPressed(KEY_E))
                 {
-                    player->gun_in_hand = l->guns[i];
-                    player->is_gun_in_hand = 1;
+                    l->player->gun_in_hand = l->guns[i];
+                    l->player->is_gun_in_hand = 1;
                     l->guns[i]->istaken = 1;
                 }
             }
@@ -86,8 +84,8 @@ void update_level(Level *l, Player*player,Cam*cam, float dt)
 
             if (IsKeyPressed(KEY_Q))
             {
-                player->gun_in_hand = NULL;
-                player->is_gun_in_hand = 0;
+                l->player->gun_in_hand = NULL;
+                l->player->is_gun_in_hand = 0;
                 l->guns[i]->istaken = 0;
             }
             
@@ -114,10 +112,21 @@ void update_level(Level *l, Player*player,Cam*cam, float dt)
         }
     }
 
+    update_gun(l->guns[0], dt);
+    update_gun(l->guns[1], dt);
+    update_player(l->player, dt);
+    update_aabb(l,l->player,dt);
+
+    if (l->player->velocity.x != 0)
+    {
+        l->player->velocity.x += -l->player->velocity.x*dt*5;
+    }
 }
 
 void draw_level(Level *l, PreTextures*tex)
 {
+    draw_player(l->player, tex);
+
     for (int i = 0; i < l->num_tiles; i++)
     {
         draw_tile(l->tiles[i], tex);

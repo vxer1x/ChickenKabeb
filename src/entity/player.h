@@ -3,7 +3,6 @@
 #include <raylib.h>
 
 #include "../gfx/texture.h"
-#include "../util/sfx.h"
 #include "../entity/entity.h"
 #include "../entity/gun.h"
 
@@ -18,6 +17,7 @@ typedef struct Player
     int dir;
 
     float speed;
+    float terminal_vel;
     float jumpforce;
     float gravity;
 
@@ -30,6 +30,6 @@ typedef struct Player
 } Player;
 
 Player* init_player(int x, int y);
-void update_player(Player* player,SFX*sfx, float dt);
+void update_player(Player* player, float dt);
 
 void draw_player(Player* player, PreTextures*tex);

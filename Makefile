@@ -8,9 +8,9 @@ MAIN_FILE = src/main.c
 OUT = bin/main.exe
 
 ENTITY_SRC = src/entity/player.c src/entity/tile.c src/entity/entity.c src/entity/gun.c
-LEVEL_SRC = src/level/level.c
+LEVEL_SRC = src/level/level.c src/level/menu.c
 GFX_SRC = src/gfx/texture.c src/gfx/camera.c
-UTIL_SRC = src/util/aabb.c src/util/sfx.c
+UTIL_SRC = src/util/aabb.c src/util/game.c
 
 SRC =  $(MAIN_FILE)  $(ENTITY_SRC)  $(LEVEL_SRC)  $(GFX_SRC) $(UTIL_SRC)
 

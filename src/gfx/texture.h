@@ -14,6 +14,7 @@ typedef struct PreTextures
     Texture2D chicken_2f;
     Texture2D chicken_3f;
     Texture2D bg;
+    Texture2D bullet;
     Texture2D shotgun;
     Texture2D uzi;
 } PreTextures;

@@ -14,7 +14,7 @@ Cam *init_camera()
     camera->cam.offset = (Vector2){ 900, 450 };
     camera->cam.target = (Vector2){ 500, 400 };
 
-    camera->alpha = 0.03;
+    camera->alpha = 5;
     camera->zoom = 3.0f;
 
     return camera;
@@ -35,7 +35,7 @@ void update_camera(Cam*cam, Player* player, float dt)
     }
 
 
-    cam->cam.target.x += ((-cam->cam.target.x + player->pos.x)*dt);
-    cam->cam.target.y += ((-cam->cam.target.y + player->pos.y)*dt);
+    cam->cam.target.x += ((-cam->cam.target.x + player->pos.x)*dt*cam->alpha);
+    cam->cam.target.y += ((-cam->cam.target.y + player->pos.y)*dt*cam->alpha);
 
 }

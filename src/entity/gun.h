@@ -19,6 +19,8 @@ typedef struct Gun
     float fire_time;
     float fire_rate;
     int bullet_speed;
+    float bullet_force;
+    Vector2 player_force;
     Entity*bullets[30];
 
     int texture_id;

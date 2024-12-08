@@ -8,6 +8,12 @@
 #include "../entity/entity.h"
 #include "../gfx/texture.h"
 
+float GetOppositeAngle(float angle) {
+    float oppositeAngle = angle + 180.0f;
+    if (oppositeAngle > 180.0f) oppositeAngle -= 360.0f;
+    return oppositeAngle;
+}
+
 Gun *create_gun(int x, int y, int type)
 {
     Gun* e = (Gun*)malloc(sizeof(Gun));
@@ -26,6 +32,8 @@ Gun *create_gun(int x, int y, int type)
         e->base->size.y = 9;
         e->bullet_speed = 800;
         e->fire_rate = 0.5f;
+        e->bullet_force = 1000;
+        e->player_force = (Vector2){ 0,0 };
 
         e->reload_time = 3;
         e->reload_timer = 0;
@@ -38,6 +46,8 @@ Gun *create_gun(int x, int y, int type)
         e->base->size.y = 12;
         e->bullet_speed = 800;
         e->fire_rate = 0.07f;
+        e->bullet_force = 100;
+        e->player_force = (Vector2){ 0,0 };
 
         e->reload_time = 3;
         e->reload_timer = 0;
@@ -77,6 +87,11 @@ void update_gun(Gun *gun, float dt)
             shoot_gun(gun);
             gun->num_bullets -= 1;
             gun->fire_time = 0;
+
+            float angleRad = gun->base->direction * (PI / 180.0f);
+
+            gun->player_force.x = -gun->bullet_force * cosf(-angleRad);
+            gun->player_force.y = gun->bullet_force * sinf(-angleRad);
         }
     }
 
@@ -106,7 +121,14 @@ void draw_gun(Gun *gun, PreTextures *tex)
     {
         if (gun->bullets[i] != NULL)
         {
-            DrawCircle(gun->bullets[i]->pos.x,gun->bullets[i]->pos.y,2,YELLOW);
+            DrawTexturePro(
+            tex->bullet,
+            (Rectangle){ gun->base->pos.x, gun->base->pos.y, tex->bullet.width, tex->bullet.height }, // Source rectangle
+            (Rectangle){ gun->bullets[i]->pos.x, gun->bullets[i]->pos.y, tex->bullet.width, tex->bullet.height }, // Destination rectangle
+            (Vector2){ 0,0 },                       // Rotation origin (center of the texture)
+            gun->bullets[i]->direction,             // Rotation angle in degrees
+            WHITE                         // Tint color
+        );
         }
     
     }
@@ -116,22 +138,20 @@ void draw_gun(Gun *gun, PreTextures *tex)
     {
         Rectangle sourceRec = { 
             0.0f, 
-            (gun->tflip == -1) ? tex->shotgun.height : 0.0f, // Adjust for vertical flipping
+            (gun->tflip == -1) ? tex->shotgun.height : 0.0f,
             (float)tex->shotgun.width, 
-            (float)tex->shotgun.height * gun->tflip // Flip vertically if tflip is -1
+            (float)tex->shotgun.height * gun->tflip
         };
 
-        Vector2 origin = { 0.0f, 0.0f }; // Keep origin at the top-left corner
+        Vector2 origin = { 0.0f, 0.0f };
 
-        // Adjust destination rectangle to compensate for vertical flip
         Rectangle destRec = { 
             gun->base->pos.x, 
-            gun->base->pos.y + ((gun->tflip == -1) ? tex->shotgun.height : 0.0f), // Offset by height when flipping
+            gun->base->pos.y + ((gun->tflip == -1) ? tex->shotgun.height : 0.0f),
             tex->shotgun.width, 
             tex->shotgun.height 
         };
 
-        // Draw the texture
         DrawTexturePro(tex->shotgun, sourceRec, destRec, origin, gun->base->direction, WHITE);
 
     }else if (gun->texture_id == 11)
@@ -145,10 +165,6 @@ void draw_gun(Gun *gun, PreTextures *tex)
 
         DrawTexturePro(tex->uzi, sourceRec, destRec, origin, gun->base->direction, WHITE);
     }
-    
-
-
-    
     
 }
 
@@ -178,6 +194,7 @@ void shoot_gun(Gun *gun)
     gun->bullets[bullet_index]->velocity.y = velocityy;
     gun->bullets[bullet_index]->size.x = 1;
     gun->bullets[bullet_index]->size.y = 1;
+    gun->bullets[bullet_index]->direction = gun->base->direction;
 
     // Move to the next slot (circular indexing)
     bullet_index = (bullet_index + 1) % 30;

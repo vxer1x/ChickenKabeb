@@ -6,7 +6,6 @@
 
 #include "../gfx/texture.h"
 #include "../entity/gun.h"
-#include "../util/sfx.h"
 
 
 Player* init_player(int x, int y)
@@ -21,9 +20,10 @@ Player* init_player(int x, int y)
     p->velocity.x = 0;
     p->velocity.y = 0;
 
-    p->speed = 150;
+    p->speed = 20;
+    p->terminal_vel = 300;
     p->gravity = 400;
-    p->jumpforce = -250;
+    p->jumpforce = -350;
     p->onground = 0;
 
     p->anime_clip = 0;
@@ -36,7 +36,7 @@ Player* init_player(int x, int y)
     return p;
 }
 
-void update_player(Player *player,SFX* sfx,  float dt)
+void update_player(Player *player,  float dt)
 {
     if (player->pos.y > 1000)
     {
@@ -47,24 +47,22 @@ void update_player(Player *player,SFX* sfx,  float dt)
 
     if (IsKeyDown(KEY_A))
     {
-        player->velocity.x = -player->speed;
+        player->velocity.x += -player->speed;
         player->ismoving = 1;
         player->dir = 0;
     }else if (IsKeyDown(KEY_D))
     {
-        player->velocity.x = player->speed;
+        player->velocity.x += player->speed;
         player->ismoving = 1;
         player->dir = 1;
     }else
     {
-        player->velocity.x = 0;
         player->ismoving = 0;
     }
 
-    if (IsKeyPressed(KEY_SPACE) && player->onground > 0) // Use IsKeyPressed for a single jump per key press
+    if (IsKeyPressed(KEY_SPACE) && player->onground == 1) // Use IsKeyPressed for a single jump per key press
     {
-        player->velocity.y = player->jumpforce;
-        player->onground = 0;
+        player->velocity.y += player->jumpforce;
         // PlaySound(sfx->jump);
     }
     
@@ -94,8 +92,11 @@ void update_player(Player *player,SFX* sfx,  float dt)
     {
         player->gun_in_hand->base->pos.x = player->pos.x+16;
         player->gun_in_hand->base->pos.y = player->pos.y+16;
+
+        player->velocity.x += player->gun_in_hand->player_force.x;
+        player->velocity.y += player->gun_in_hand->player_force.y;
+        player->gun_in_hand->player_force = (Vector2){ 0, 0 };
     }
-    
 
 }
 
@@ -133,7 +134,5 @@ void draw_player(Player *player, PreTextures*tex)
         }
         
     }
-    
-    
 }
 
