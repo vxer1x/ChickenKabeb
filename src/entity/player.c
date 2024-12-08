@@ -5,6 +5,7 @@
 #include <raylib.h>
 
 #include "../gfx/texture.h"
+#include "../entity/gun.h"
 #include "../util/sfx.h"
 
 
@@ -92,7 +93,7 @@ void update_player(Player *player,SFX* sfx,  float dt)
     if (player->is_gun_in_hand == 1)
     {
         player->gun_in_hand->base->pos.x = player->pos.x+16;
-        player->gun_in_hand->base->pos.y = player->pos.y+25;
+        player->gun_in_hand->base->pos.y = player->pos.y+16;
     }
     
 

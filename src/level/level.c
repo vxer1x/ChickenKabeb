@@ -96,6 +96,22 @@ void update_level(Level *l, Player*player,Cam*cam, float dt)
             l->guns[i]->base->direction = 0.0f;
         }      
         
+        for (size_t j = 0; j < l->num_tiles; j++) {
+            for (size_t k = 0; k < l->guns[i]->max_bullets; k++) {
+                // Skip null bullets
+                if (l->guns[i]->bullets[k] == NULL) {
+                    continue;
+                }
+
+                // Check collision
+                if (is_colliding_ent(l->guns[i]->bullets[k], l->tiles[j])) {
+                    l->guns[i]->bullets[k] = NULL;
+
+                    // Optional: Break early if one collision per tile is enough
+                    break;
+                }
+            }
+        }
     }
 
 }

@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include "../entity/entity.h"
+#include "../entity/gun.h"
 #include "../gfx/texture.h"
 
 typedef struct Gun

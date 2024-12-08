@@ -34,8 +34,8 @@ Gun *create_gun(int x, int y, int type)
         e->num_bullets = 30;
         e->max_bullets = 30;
         e->texture_id = type;
-        e->base->size.x = 28;
-        e->base->size.y = 22;
+        e->base->size.x = 21;
+        e->base->size.y = 12;
         e->bullet_speed = 800;
         e->fire_rate = 0.07f;
 
@@ -111,22 +111,39 @@ void draw_gun(Gun *gun, PreTextures *tex)
     
     }
 
-
     
     if (gun->texture_id == 10)
     {
-        Rectangle sourceRec = { 0.0f, 0.0f, (float)tex->shotgun.width, (float)tex->shotgun.height*gun->tflip };
-        Vector2 origin = { tex->shotgun.width / 2.0f, tex->shotgun.height / 2.0f };
+        Rectangle sourceRec = { 
+            0.0f, 
+            (gun->tflip == -1) ? tex->shotgun.height : 0.0f, // Adjust for vertical flipping
+            (float)tex->shotgun.width, 
+            (float)tex->shotgun.height * gun->tflip // Flip vertically if tflip is -1
+        };
 
-        DrawTexturePro(tex->shotgun, sourceRec, (Rectangle){ gun->base->pos.x, gun->base->pos.y, tex->shotgun.width, tex->shotgun.height },
-            origin, gun->base->direction, WHITE);
+        Vector2 origin = { 0.0f, 0.0f }; // Keep origin at the top-left corner
+
+        // Adjust destination rectangle to compensate for vertical flip
+        Rectangle destRec = { 
+            gun->base->pos.x, 
+            gun->base->pos.y + ((gun->tflip == -1) ? tex->shotgun.height : 0.0f), // Offset by height when flipping
+            tex->shotgun.width, 
+            tex->shotgun.height 
+        };
+
+        // Draw the texture
+        DrawTexturePro(tex->shotgun, sourceRec, destRec, origin, gun->base->direction, WHITE);
+
     }else if (gun->texture_id == 11)
     {
-        Rectangle sourceRec = { 0.0f, 0.0f, (float)tex->uzi.width, (float)tex->uzi.height*gun->tflip };
-        Vector2 origin = { tex->uzi.width / 2.0f, tex->uzi.height / 2.0f };
+        Rectangle sourceRec = { 0.0f, (gun->tflip == -1) ? tex->uzi.height : 0.0f, 
+                        (float)tex->uzi.width, (float)tex->uzi.height * gun->tflip };
+        Vector2 origin = { 0,0 };
+        Rectangle destRec = { gun->base->pos.x, 
+                      gun->base->pos.y + ((gun->tflip == -1) ? tex->uzi.height : 0), 
+                      tex->uzi.width, tex->uzi.height };
 
-        DrawTexturePro(tex->uzi, sourceRec, (Rectangle){ gun->base->pos.x, gun->base->pos.y, tex->uzi.width, tex->uzi.height },
-            origin, gun->base->direction, WHITE);
+        DrawTexturePro(tex->uzi, sourceRec, destRec, origin, gun->base->direction, WHITE);
     }
     
 
@@ -159,6 +176,8 @@ void shoot_gun(Gun *gun)
     gun->bullets[bullet_index]->pos.y = gun->base->pos.y;
     gun->bullets[bullet_index]->velocity.x = velocityx;
     gun->bullets[bullet_index]->velocity.y = velocityy;
+    gun->bullets[bullet_index]->size.x = 1;
+    gun->bullets[bullet_index]->size.y = 1;
 
     // Move to the next slot (circular indexing)
     bullet_index = (bullet_index + 1) % 30;

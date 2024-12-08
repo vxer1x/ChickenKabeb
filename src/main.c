@@ -12,6 +12,12 @@
 
 int main(void)
 {
+    SFX* sfx = load_sfx();
+    Cam* cam = init_camera();
+    Level* level = load_level();
+    Player *player = init_player(200,-200);
+
+
     Image icon = LoadImage("res/textures/icon.bmp");
     if (icon.format != PIXELFORMAT_UNCOMPRESSED_R8G8B8A8) {
         ImageFormat(&icon, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8); // Convert to R8G8B8A8
@@ -20,13 +26,8 @@ int main(void)
     InitWindow(1920,1080,"Chicken Kabeb");
     SetWindowIcon(icon);
 
-
-    Player *player = init_player(200,-200);
-    Level* level = load_level();
-    Cam* cam = init_camera();
     PreTextures* tex = load_textures();
-    SFX* sfx = load_sfx();
-    SetTargetFPS(240);
+
 
     SetTraceLogLevel(LOG_DEBUG);
     
