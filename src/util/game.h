@@ -12,6 +12,9 @@
 
 typedef struct Game
 {
+    int w_width;
+    int w_height;
+
     Cam*cam;
     PreTextures* tex;
     Level* level;
@@ -20,6 +23,6 @@ typedef struct Game
     float dt;
 } Game;
 
-Game* init_game(int width, int height);
+Game* init_game();
 void update_game(Game*game);
 void terminate_game(Game*game);

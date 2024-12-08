@@ -12,6 +12,9 @@ typedef struct Entity
 
     float gravity;
     float direction;
+    float range;
+
+    float damage;
 } Entity;
 
 Entity *create_entity(int x, int y);

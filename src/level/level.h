@@ -7,14 +7,18 @@
 #include "../entity/player.h"
 #include "../entity/gun.h"
 #include "../entity/entity.h"
+#include "../entity/enimy.h"
 #include "../gfx/camera.h"
 
 typedef struct Level
 {
     int num_tiles;
-    Tile* tiles[50];
+    Tile* tiles[119];
     Gun*guns[2];
     Player*player;
+
+    Entity*Enimy_bullets[120];
+    Enimy*enimes[1];
 }Level;
 
 void load_tile(Level*l);

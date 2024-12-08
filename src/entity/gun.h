@@ -12,6 +12,7 @@ typedef struct Gun
 {
     Entity*base;
 
+    int bullet_damage;
     int num_bullets;
     int max_bullets;
     float reload_time;   
@@ -22,6 +23,7 @@ typedef struct Gun
     float bullet_force;
     Vector2 player_force;
     Entity*bullets[30];
+    int isreloading;
 
     int texture_id;
     int istaken;

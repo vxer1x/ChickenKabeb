@@ -7,7 +7,7 @@ LDFLAGS = -lraylib -lopengl32 -lgdi32 -lwinmm
 MAIN_FILE = src/main.c
 OUT = bin/main.exe
 
-ENTITY_SRC = src/entity/player.c src/entity/tile.c src/entity/entity.c src/entity/gun.c
+ENTITY_SRC = src/entity/player.c src/entity/tile.c src/entity/entity.c src/entity/gun.c src/entity/enimy.c
 LEVEL_SRC = src/level/level.c src/level/menu.c
 GFX_SRC = src/gfx/texture.c src/gfx/camera.c
 UTIL_SRC = src/util/aabb.c src/util/game.c

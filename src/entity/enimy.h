@@ -6,8 +6,10 @@
 #include "../entity/entity.h"
 #include "../entity/gun.h"
 
-typedef struct Player
+typedef struct Enimy
 {
+    char*name;
+
     Vector2 pos;
     Vector2 size;
     Vector2 velocity;
@@ -18,6 +20,7 @@ typedef struct Player
 
     float health;
     float taking_damage_timer;
+    Color color;
 
     float speed;
     float terminal_vel;
@@ -30,9 +33,9 @@ typedef struct Player
     Gun*gun_in_hand;
     int is_gun_in_hand;
 
-} Player;
+} Enimy;
 
-Player* init_player(int x, int y);
-void update_player(Player* player, float dt);
+Enimy* init_enimy(int x, int y,char*name);
+void update_enimy(Enimy* enimy, float dt);
 
-void draw_player(Player* player, PreTextures*tex);
+void draw_enimy(Enimy* enimy, PreTextures*tex);

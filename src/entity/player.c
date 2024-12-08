@@ -14,7 +14,7 @@ Player* init_player(int x, int y)
     p->pos.x = x;
     p->pos.y = y;
 
-    p->size.x = 32;
+    p->size.x = 28;
     p->size.y = 32;
 
     p->velocity.x = 0;
@@ -25,6 +25,9 @@ Player* init_player(int x, int y)
     p->gravity = 400;
     p->jumpforce = -350;
     p->onground = 0;
+
+    p->health = 100.0f;
+    p->taking_damage_timer = 1.1f;
 
     p->anime_clip = 0;
     p->anime_time = 0;
@@ -38,6 +41,8 @@ Player* init_player(int x, int y)
 
 void update_player(Player *player,  float dt)
 {
+    player->taking_damage_timer += dt;
+
     if (player->pos.y > 1000)
     {
         player->pos = (Vector2){ 200,-200 };

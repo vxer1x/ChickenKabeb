@@ -23,8 +23,10 @@ Gun *create_gun(int x, int y, int type)
     e->fire_time = 0;
     e->istaken = 0;
     e->tflip = 1.0f;
+    e->isreloading = 0;
     if (type == 10)
     {
+        e->bullet_damage = 30;
         e->num_bullets = 9;
         e->max_bullets = 9;
         e->texture_id = type;
@@ -39,6 +41,7 @@ Gun *create_gun(int x, int y, int type)
         e->reload_timer = 0;
     }else if (type == 11)
     {
+        e->bullet_damage = 3;
         e->num_bullets = 30;
         e->max_bullets = 30;
         e->texture_id = type;
@@ -64,6 +67,7 @@ Gun *create_gun(int x, int y, int type)
 void update_gun(Gun *gun, float dt)
 {
     gun->fire_time += dt;
+    
 
     for (int i = 0; i < 30; i++)
     {
@@ -71,6 +75,8 @@ void update_gun(Gun *gun, float dt)
         {
             gun->bullets[i]->pos.x += gun->bullets[i]->velocity.x*dt;
             gun->bullets[i]->pos.y += gun->bullets[i]->velocity.y*dt;
+
+            gun->bullets[i]->range += dt;
         }
     }
     
@@ -105,11 +111,12 @@ void update_gun(Gun *gun, float dt)
 
     if (gun->num_bullets <= 0)
     {
+        gun->isreloading = 1;
         if (gun->reload_timer >= gun->reload_time)
         {
             gun->num_bullets = gun->max_bullets;
             gun->reload_timer = 0;
-            
+            gun->isreloading = 0;
         }
         gun->reload_timer += dt;
     }
@@ -119,7 +126,7 @@ void draw_gun(Gun *gun, PreTextures *tex)
 {
     for (int i = 0; i < 30; i++)
     {
-        if (gun->bullets[i] != NULL)
+        if (gun->bullets[i] != NULL && gun->bullets[i]->range > 0.01)
         {
             DrawTexturePro(
             tex->bullet,
@@ -195,6 +202,8 @@ void shoot_gun(Gun *gun)
     gun->bullets[bullet_index]->size.x = 1;
     gun->bullets[bullet_index]->size.y = 1;
     gun->bullets[bullet_index]->direction = gun->base->direction;
+    gun->bullets[bullet_index]->damage = gun->bullet_damage;
+    gun->bullets[bullet_index]->range = 0;
 
     // Move to the next slot (circular indexing)
     bullet_index = (bullet_index + 1) % 30;

@@ -5,6 +5,7 @@
 #include "../gfx//camera.h"
 #include "../util/aabb.h"
 #include "../entity/player.h"
+#include "../entity/enimy.h"
 #include "../entity/entity.h"
 #include "../entity/gun.h"
 
@@ -48,9 +49,10 @@ Level *load_level()
 
     l->guns[0] = create_gun(150,-200, 10);
     l->guns[1] = create_gun(250,-200, 11);
+    l->enimes[0] = init_enimy(150,-500,"kingongu");
 
-    l->num_tiles = 50;
-    l->player = init_player(200,-200);
+    l->num_tiles = 119;
+    l->player = init_player(200,-500);
     load_tile(l);
 
     return l;
@@ -58,7 +60,7 @@ Level *load_level()
 
 void update_level(Level *l,Cam*cam, float dt)
 {
-
+   // player gun things
     for (int i = 0; i < 2; i++)
     {
         update_aabb_ent(l, l->guns[i]->base,dt);
@@ -94,6 +96,7 @@ void update_level(Level *l,Cam*cam, float dt)
             l->guns[i]->base->direction = 0.0f;
         }      
         
+
         for (size_t j = 0; j < l->num_tiles; j++) {
             for (size_t k = 0; k < l->guns[i]->max_bullets; k++) {
                 // Skip null bullets
@@ -108,14 +111,36 @@ void update_level(Level *l,Cam*cam, float dt)
                     // Optional: Break early if one collision per tile is enough
                     break;
                 }
+
+                if (is_colliding_ent_enimy(l->guns[i]->bullets[k], l->enimes[0]))
+                {
+                    l->enimes[0]->health -= l->guns[i]->bullets[k]->damage;
+                    l->enimes[0]->taking_damage_timer = 0;
+                    l->guns[i]->bullets[k] = NULL;
+                }
+                
+                
             }
         }
     }
 
+    //enimy things
+    
+    if (l->enimes[0]->health <= 0)
+    {
+        free(l->enimes[0]);
+        l->enimes[0] = init_enimy(150,-500,"kingongu");
+    }
+    
+
+    //updates
+
     update_gun(l->guns[0], dt);
     update_gun(l->guns[1], dt);
     update_player(l->player, dt);
+    update_enimy(l->enimes[0], dt);
     update_aabb(l,l->player,dt);
+    update_aabb_enimy(l,l->enimes[0],dt);
 
     if (l->player->velocity.x != 0)
     {
@@ -126,6 +151,7 @@ void update_level(Level *l,Cam*cam, float dt)
 void draw_level(Level *l, PreTextures*tex)
 {
     draw_player(l->player, tex);
+    draw_enimy(l->enimes[0],tex);
 
     for (int i = 0; i < l->num_tiles; i++)
     {
