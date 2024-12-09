@@ -1,7 +1,9 @@
 #pragma once
 
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <raylib.h>
 
@@ -21,6 +23,7 @@ typedef struct Game
     clock_t lastTime;
     Image icon;
     float dt;
+
 } Game;
 
 Game* init_game();

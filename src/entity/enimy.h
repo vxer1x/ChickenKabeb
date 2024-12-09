@@ -17,6 +17,7 @@ typedef struct Enimy
     int onground;
     int ismoving;
     int dir;
+    int active;
 
     float health;
     float taking_damage_timer;

@@ -18,7 +18,7 @@ typedef struct Level
     Player*player;
 
     Entity*Enimy_bullets[120];
-    Enimy*enimes[1];
+    Enimy*enimes[10];
 }Level;
 
 void load_tile(Level*l);

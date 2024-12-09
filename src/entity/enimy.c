@@ -19,7 +19,7 @@ Enimy *init_enimy(int x, int y,char*name)
 
     p->velocity.x = 0;
     p->velocity.y = 0;
-
+    p->active = 0;
     p->speed = 20;
     p->terminal_vel = 300;
     p->gravity = 400;
@@ -53,11 +53,6 @@ void update_enimy(Enimy *enim, float dt)
     }
     
     
-
-    if (enim->pos.y > 1000)
-    {
-        enim->pos = (Vector2){ 200,-200 };
-    }
     enim->anime_time += dt*10;
 
     if (enim->velocity.y <= enim->gravity)
@@ -81,38 +76,43 @@ void update_enimy(Enimy *enim, float dt)
 
 void draw_enimy(Enimy *enimy, PreTextures *tex)
 {
-    DrawText(enimy->name,enimy->pos.x,enimy->pos.y-30,5, RED);
+    if (enimy->active == 1)
+    {
+        DrawText(enimy->name,enimy->pos.x,enimy->pos.y-30,5, RED);
 
-    if (enimy->onground == 1)
-    {
-        if (enimy->dir == 1)
+        if (enimy->onground == 1)
         {
-            if (enimy->anime_clip == 0)
+            if (enimy->dir == 1)
             {
-                DrawTexture(tex->chicken_2, (int)enimy->pos.x, (int)enimy->pos.y, enimy->color);
-            }else if (enimy->anime_clip == 1)
+                if (enimy->anime_clip == 0)
+                {
+                    DrawTexture(tex->chicken_2, (int)enimy->pos.x, (int)enimy->pos.y, enimy->color);
+                }else if (enimy->anime_clip == 1)
+                {
+                    DrawTexture(tex->chicken_1, (int)enimy->pos.x, (int)enimy->pos.y, enimy->color);
+                }
+            }else if (enimy->dir == 0)
             {
-                DrawTexture(tex->chicken_1, (int)enimy->pos.x, (int)enimy->pos.y, enimy->color);
+                if (enimy->anime_clip == 0)
+                {
+                    DrawTexture(tex->chicken_2f, (int)enimy->pos.x, (int)enimy->pos.y, enimy->color);
+                }else if (enimy->anime_clip == 1)
+                {
+                    DrawTexture(tex->chicken_1f, (int)enimy->pos.x, (int)enimy->pos.y, enimy->color);
+                }
             }
-        }else if (enimy->dir == 0)
+        }else
         {
-            if (enimy->anime_clip == 0)
+            if (enimy->dir == 1)
             {
-                DrawTexture(tex->chicken_2f, (int)enimy->pos.x, (int)enimy->pos.y, enimy->color);
-            }else if (enimy->anime_clip == 1)
+                DrawTexture(tex->chicken_3, (int)enimy->pos.x, (int)enimy->pos.y, enimy->color);
+            }else if (enimy->dir == 0)
             {
-                DrawTexture(tex->chicken_1f, (int)enimy->pos.x, (int)enimy->pos.y, enimy->color);
+                DrawTexture(tex->chicken_3f, (int)enimy->pos.x, (int)enimy->pos.y, enimy->color);
             }
+            
         }
-    }else
-    {
-        if (enimy->dir == 1)
-        {
-            DrawTexture(tex->chicken_3, (int)enimy->pos.x, (int)enimy->pos.y, enimy->color);
-        }else if (enimy->dir == 0)
-        {
-            DrawTexture(tex->chicken_3f, (int)enimy->pos.x, (int)enimy->pos.y, enimy->color);
-        }
-        
     }
+    
+
 }

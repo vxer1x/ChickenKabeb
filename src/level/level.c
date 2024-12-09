@@ -49,10 +49,21 @@ Level *load_level()
 
     l->guns[0] = create_gun(150,-200, 10);
     l->guns[1] = create_gun(250,-200, 11);
-    l->enimes[0] = init_enimy(150,-500,"kingongu");
+
+    for (int i = 0; i < 10; i++)
+    {
+        l->enimes[0] = init_enimy(150,-500,"kingongu");
+    }
+    
 
     l->num_tiles = 119;
     l->player = init_player(200,-500);
+
+    for (int i = 0; i < 10; i++)
+    {
+        l->enimes[i] = init_enimy(0,0,"enimy");
+    }
+    
     load_tile(l);
 
     return l;
@@ -125,12 +136,14 @@ void update_level(Level *l,Cam*cam, float dt)
     }
 
     //enimy things
-    
-    if (l->enimes[0]->health <= 0)
+    for (int i = 0; i < 10; i++)
     {
-        free(l->enimes[0]);
-        l->enimes[0] = init_enimy(150,-500,"kingongu");
+        if (l->enimes[i]->active)
+        {
+            update_enimy(l->enimes[i],dt);
+        }
     }
+    
     
 
     //updates
@@ -138,9 +151,7 @@ void update_level(Level *l,Cam*cam, float dt)
     update_gun(l->guns[0], dt);
     update_gun(l->guns[1], dt);
     update_player(l->player, dt);
-    update_enimy(l->enimes[0], dt);
     update_aabb(l,l->player,dt);
-    update_aabb_enimy(l,l->enimes[0],dt);
 
     if (l->player->velocity.x != 0)
     {
@@ -150,8 +161,13 @@ void update_level(Level *l,Cam*cam, float dt)
 
 void draw_level(Level *l, PreTextures*tex)
 {
-    draw_player(l->player, tex);
-    draw_enimy(l->enimes[0],tex);
+    draw_player(l->player,tex);
+    for (int i = 0; i < 10; i++) {
+        if (l->enimes[i]->active) {
+            // Draw enemy at the position stored in enimes[i]->pos
+            draw_enimy(l->enimes[i],tex);
+        }
+    }
 
     for (int i = 0; i < l->num_tiles; i++)
     {
