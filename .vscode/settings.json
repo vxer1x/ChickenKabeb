@@ -1,6 +1,0 @@
-{
-    "files.associations": {
-        "*.gitignore": "cpp",
-        "player.h": "c"
-    }
-}
