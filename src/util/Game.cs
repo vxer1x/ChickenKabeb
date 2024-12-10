@@ -17,9 +17,10 @@ namespace ChickenKabeb.src.util
         private bool game_running = true;
 
         private TextureManager tex_manager;
-        private Player player = new(100,100);
+        private Player player = new(1000,100);
 
         private List<Entity> Tiles;
+        private List<Entity> Entities = new();
 
         public Game()
         {
@@ -28,6 +29,8 @@ namespace ChickenKabeb.src.util
 
             tex_manager = new TextureManager();
             Tiles = World.LoadEntitiesFromFile("res/maps/map.txt");
+
+            Entities.Add(this.player);
         }
 
 
@@ -42,7 +45,8 @@ namespace ChickenKabeb.src.util
             this.window_width = Raylib.GetScreenWidth();
             this.window_height = Raylib.GetScreenHeight();
 
-            this.player.Update(Time.DeltaTime);
+            World.UpdateEntites(Entities);
+            AABB.ResolveCollisions(this.Entities,this.Tiles);
         }
 
         public void Draw()
@@ -50,8 +54,8 @@ namespace ChickenKabeb.src.util
             Raylib.BeginDrawing();
             Raylib.ClearBackground(Color.SkyBlue);
 
-            this.player.Draw(this.tex_manager);
             World.DrawEntites(this.Tiles,this.tex_manager);
+            World.DrawEntites(this.Entities,this.tex_manager);
 
             Raylib.DrawText(Raylib.GetFPS().ToString(), 10, 10, 20, Color.White);
             Raylib.EndDrawing();

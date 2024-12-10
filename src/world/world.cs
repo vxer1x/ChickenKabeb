@@ -60,6 +60,18 @@ namespace ChickenKabeb.src.world
             return entities;
         }
 
+
+        public static void UpdateEntites(List<Entity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                if (entity.isStatic == false)
+                {
+                    entity.Update();
+                }
+            }
+        }
+
         public static void DrawEntites(List<Entity> entities,TextureManager texm)
         {
             foreach (Entity entity in entities)

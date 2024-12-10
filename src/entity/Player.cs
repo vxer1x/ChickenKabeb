@@ -12,37 +12,32 @@ namespace ChickenKabeb.src.entity
         public Player(int x, int y)
             : base(x, y, 32, 32, "player")
         {
-            this.speed = 300;
+            this.speed = 500;
+            this.isStatic = false;
         }
 
-        public void Update(float dt)
+        public override void Update()
         {
-            UserInput(dt);
+            UserInput();
         }
-
-        public void Draw(TextureManager tm)
-        {
-            Raylib.DrawTexture(tm.GetTexture("player"), (int)this.position.x, (int)this.position.y, Color.White);
-        }
-
 
         // Manges the user input of player
-        private void UserInput(float dt)
+        private void UserInput()
         {
             if (Raylib.IsKeyDown(KeyboardKey.D))
             {
-                this.position.x += this.speed*dt;
+                this.velocity.x += this.speed*Time.DeltaTime;
             }else if (Raylib.IsKeyDown(KeyboardKey.A))
             {
-                this.position.x -= this.speed*dt;
+                this.velocity.x -= this.speed*Time.DeltaTime;
             }
 
             if (Raylib.IsKeyDown(KeyboardKey.W))
             {
-                this.position.y -= this.speed*dt;
+                this.velocity.y -= this.speed*Time.DeltaTime;
             }else if (Raylib.IsKeyDown(KeyboardKey.S))
             {
-                this.position.y += this.speed*dt;
+                this.velocity.y += this.speed*Time.DeltaTime;
             }
         }
     }

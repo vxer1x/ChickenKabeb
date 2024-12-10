@@ -10,8 +10,10 @@ namespace ChickenKabeb.src.entity
         public Vec2 velocity;
 
         public float direction;
-        public bool isSolid;
+        public float terminalVelocity;
+        public bool isStatic;
         public string typeName;
+        public bool onGround;
 
         public Entity(int x, int y, int width, int height,string name)
         {
@@ -25,8 +27,15 @@ namespace ChickenKabeb.src.entity
             this.velocity.y = 0;
 
             this.direction = 0;
-            this.isSolid = true;
+            this.onGround = false;
+            this.isStatic = true;
             this.typeName = name;
+            this.terminalVelocity = 200;
+        }
+
+        public virtual void Update()
+        {
+
         }
     }
 }

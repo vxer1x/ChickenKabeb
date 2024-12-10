@@ -20,3 +20,4 @@ C:\proj\ChickenKabeb\obj\Debug\net8.0\refint\ChickenKabeb.dll
 C:\proj\ChickenKabeb\obj\Debug\net8.0\ChickenKabeb.pdb
 C:\proj\ChickenKabeb\obj\Debug\net8.0\ChickenKabeb.genruntimeconfig.cache
 C:\proj\ChickenKabeb\obj\Debug\net8.0\ref\ChickenKabeb.dll
+C:\proj\ChickenKabeb\obj\Debug\net8.0\ChickenKabeb.sourcelink.json
