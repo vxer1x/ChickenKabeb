@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "BbyIEe2JErw=",
+  "success": true,
+  "projectFilePath": "C:\\proj\\ChickenKabeb\\ChickenKabeb.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Vinay\\.nuget\\packages\\raylib-cs\\6.1.1\\raylib-cs.6.1.1.nupkg.sha512",
+    "C:\\Users\\Vinay\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
