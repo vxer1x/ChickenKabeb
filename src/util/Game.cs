@@ -17,7 +17,7 @@ namespace ChickenKabeb.src.util
         private bool game_running = true;
 
         private TextureManager tex_manager;
-        private Player player = new(1000,100);
+        private Player player = new(200,100);
 
         private List<Entity> Tiles;
         private List<Entity> Entities = new();
@@ -26,6 +26,7 @@ namespace ChickenKabeb.src.util
         {
             Raylib.SetConfigFlags(ConfigFlags.ResizableWindow);
             Raylib.InitWindow(window_width, window_height, "ChickenKabeb");
+            Raylib.SetTargetFPS(90);
 
             tex_manager = new TextureManager();
             Tiles = World.LoadEntitiesFromFile("res/maps/map.txt");

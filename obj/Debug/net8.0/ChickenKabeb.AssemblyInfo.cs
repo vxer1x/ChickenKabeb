@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ChickenKabeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5ee47e2aff21d2a09ab05b9efbcd967600e51e18")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9f0c5d34ac4f25c60a12d5b07278a3a15a1126e8")]
 [assembly: System.Reflection.AssemblyProductAttribute("ChickenKabeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ChickenKabeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
